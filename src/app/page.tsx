@@ -2,6 +2,7 @@ import 'keen-slider/keen-slider.min.css'
 import { ProductsSlider } from './_components/products-slider'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
+import { Metadata } from 'next'
 
 type Product = {
   id: string
@@ -11,7 +12,11 @@ type Product = {
   name: string
 }
 
-export const revalidate = 60 * 0.5 // revalidate every 5 minutes
+export const revalidate = 60 * 5 // revalidate every 5 minutes
+
+export const metadata: Metadata = {
+  title: 'Home | Ignite Shop'
+}
 
 export default async function Home() {
   const response = await stripe.products.list({
