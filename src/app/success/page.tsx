@@ -1,9 +1,10 @@
-import 'keen-slider/keen-slider.min.css'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Metadata } from 'next'
+import classNames from 'classnames'
+import { ImagesStack } from './_components/images-stack'
 
 type SuccessPageProps = {
   params: {}
@@ -42,21 +43,15 @@ export default async function SuccessPage(props: SuccessPageProps) {
 
   return (
     <main className='w-full max-w-[calc(100vw-((100vw-1180px)/2))] p-8 flex flex-col items-center'>
-      <h1 className='font-bold text-3xl text-title text-center mb-[4rem]'>
+      <ImagesStack images={products.map((product) => product.imageUrl)} />
+
+      <h1 className='font-bold text-3xl text-title text-center mt-12 mb-6'>
         Compra efetuada
       </h1>
-      <div className='w-full bg-gradient-to-b from-[#1ea483] to-[#7465d4] rounded-md flex items-center justify-center shrink-0 max-w-[130px] h-[145px] mb-8 p-1'>
-        <Image
-          src={products[0].imageUrl}
-          width={520}
-          height={480}
-          alt='product'
-        />
-      </div>
 
       <p className='text-text text-2xl text-center max-w-[37rem]'>
-        Uhuul <strong>{customerName}</strong>, sua{' '}
-        <strong>{products[0].name}</strong> já está a caminho da sua casa.
+        Uhuul <strong>{customerName}</strong>
+        {`, sua compra de ${products.length} camisas já está a caminho da sua casa.`}
       </p>
 
       <Link

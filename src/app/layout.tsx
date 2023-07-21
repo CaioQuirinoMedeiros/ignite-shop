@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Providers } from './providers'
+import { Header } from './_components/header'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -24,14 +26,12 @@ export default function RootLayout({
   return (
     <html lang='en' className={`${roboto.className} text-text bg-background`}>
       <body>
-        <div className='flex flex-col items-start min-h-screen'>
-          <header className='p-8 w-full max-w-[1180px] mx-auto'>
-            <Link href='/'>
-              <Image src={Images.logoIgniteShop} alt='Ignite shop' />
-            </Link>
-          </header>
-          {children}
-        </div>
+        <Providers>
+          <div className='flex flex-col items-start min-h-screen'>
+            <Header />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   )

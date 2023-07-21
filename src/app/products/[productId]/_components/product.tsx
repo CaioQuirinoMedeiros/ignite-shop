@@ -2,6 +2,8 @@
 import * as React from 'react'
 import { formatCurrency } from '@/utils/formatCurrency'
 import Image from 'next/image'
+import { useCartContext } from '@/contexts/CartContext'
+import { Product as ProductModel } from '@/models/Product'
 
 type Product = {
   id: string
@@ -21,24 +23,10 @@ export const revalidate = 10
 export function Product(props: ProductProps) {
   const { product } = props
 
-  const [isCreatingCheckout, setIsCreatingCheckout] = React.useState(false)
+  const { addOneProduct } = useCartContext()
 
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckout(true)
-      const response = await fetch(`/checkout`, {
-        method: 'POST',
-        body: JSON.stringify({ priceId: product.priceId })
-      })
-
-      const responseData: { checkoutUrl: string } = await response.json()
-
-      setIsCreatingCheckout(false)
-      window.location.href = responseData.checkoutUrl
-    } catch (err) {
-      setIsCreatingCheckout(false)
-      alert('Falha ao realizar a compra')
-    }
+  async function handleAddToCart() {
+    addOneProduct(new ProductModel(product))
   }
 
   return (
@@ -62,11 +50,10 @@ export function Product(props: ProductProps) {
         <p className='text-lg text-text mb-10'>{product.description}</p>
 
         <button
-          disabled={isCreatingCheckout}
           className='rounded-lg flex items-center justify-center bg-main [&:not(:disabled):hover]:bg-main-light transition-colors text-white font-bold text-lg min-h-[4.135rem] mt-auto disabled:opacity-60 disabled:cursor-not-allowed'
-          onClick={handleBuyProduct}
+          onClick={handleAddToCart}
         >
-          Comprar agora
+          Colocar na sacola
         </button>
       </div>
     </main>

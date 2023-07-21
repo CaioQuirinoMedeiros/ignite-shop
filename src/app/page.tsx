@@ -1,4 +1,3 @@
-import 'keen-slider/keen-slider.min.css'
 import { ProductsSlider } from './_components/products-slider'
 import { stripe } from '@/lib/stripe'
 import Stripe from 'stripe'
@@ -7,6 +6,7 @@ import { Metadata } from 'next'
 type Product = {
   id: string
   price: number | null
+  priceId: string
   description: string | null
   imageUrl: string | undefined
   name: string
@@ -28,6 +28,7 @@ export default async function Home() {
     return {
       id: stripeProduct.id,
       price: price.unit_amount == null ? null : price.unit_amount / 100,
+      priceId: price.id,
       name: stripeProduct.name,
       description: stripeProduct.description,
       imageUrl: stripeProduct.images[0]
